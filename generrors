@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+use strict;
+
+my @defs = read_defs();
+write_h("ctdms_errors.h", @defs);
+write_c("ctdms_errors.c", @defs);
+
+sub read_defs {
+    my @defs;
+    while (<>) {
+	next if /^#/;
+	my($code,$sym,$desc) = /^(-\d+)\s+(TDMS_\w+)\s+(.*)/
+	    or die "Unmatched: $_\n";
+	push @defs, [$code, $sym, $desc];
+    }
+    return @defs;
+}
+
+sub write_h {
+    my($hname,@defs) = @_;
+    open(my $h,'>',$hname)
+	or die "Cannot open $hname: $!\n";
+    print $h "enum TDMSError {\n";
+    foreach my $def (@defs) {
+	my($code,$sym,$desc) = @$def;
+	print $h "  $sym = $code,\n";
+    }
+    print $h "};\n";
+    close($h);
+}
+
+sub write_c {
+    my($cname,@defs) = @_;
+    open(my $c,'>',$cname)
+	or die "Cannot open $cname: $!\n";
+    print $c "#include \"ctdms_errors.h\"\n";
+    print $c "const char *TDMS_GetLibraryErrorDescription(int error) {\n";
+    print $c "    switch (error) {\n";
+    foreach my $def (@defs) {
+	my($code,$sym,$desc) = @$def;
+	print $c "    case $sym: return \"$desc\";\n";
+    }
+    print $c "    default: return 0;\n";
+    print $c "    }\n";
+    print $c "}\n";
+    close($c);
+}
+
+

@@ -1,0 +1,91 @@
+# From https://www.ni.com/docs/en-US/bundle/labwindows-cvi/page/cvi/libref/cvitdmslibraryerrorcodes.htm
+-6601 	TDMS_InvalidArgument 	Invalid argument.
+-6602 	TDMS_OutOfMemory 	Out of memory.
+-6603 	TDMS_FileAlreadyOpen 	The file already open.
+-6604 	TDMS_FileCouldNotBeOpened 	The file could not be opened.
+-6605 	TDMS_FileNotFound 	The file could not be found.
+-6606 	TDMS_FileAccessDenied 	File access denied.
+-6607 	TDMS_DiskFull 	The drive is full.
+-6608 	TDMS_TooManyOpenFiles 	The maximum number of open files has been reached. Close one or more files and try again.
+-6609 	TDMS_PathNotFound 	The path could not be found.
+-6610 	TDMS_NotAValidTDMSFile 	The file is not a valid TDMS file.
+-6611 	TDMS_FileCouldNotBeClosed 	The file could not be closed.
+-6612 	TDMS_WriteToFileFailed 	Write to file failed.
+-6613 	TDMS_ReadFromFileFailed 	Read from file failed.
+-6614 	TDMS_FailedToLoadDLL 	The library failed to load.
+-6615 	TDMS_CannotLoadTDMFile 	TDM files are not supported. Only TDMS files are supported.
+-6616 	TDMS_PropertyIsReadOnly 	The specified property is read only.
+-6617 	TDMS_DuplicateName 	The file already contains and object with that name.
+-6618 	TDMS_RequestCannotBeCompletedWithUnsavedData 	The request cannot be completed with unsaved data. Save the file and try again.
+-6619 	TDMS_UnexpectedError 	An unexpected error occurred.
+-6620 	TDMS_NullPointerPassed 	A null pointer was passed where a non-null pointer was expected.
+-6621 	TDMS_InvalidFileHandle 	Invalid file handle.
+-6622 	TDMS_InvalidChannelGroupHandle 	Invalid channel group handle.
+-6623 	TDMS_InvalidChannelHandle 	Invalid channel handle.
+-6624 	TDMS_InvalidFilePath 	Invalid file path.
+-6625 	TDMS_InvalidDataType 	Invalid data type.
+-6626 	TDMS_InvalidFileFormat 	Invalid value for file format.
+-6627 	TDMS_InvalidName 	Invalid name.
+-6628 	TDMS_InvalidPropertyName 	Invalid property name.
+-6629 	TDMS_PropertyDoesNotExist 	The property does not exist.
+-6630 	TDMS_PropertyAlreadyExists 	The property already exists.
+-6631 	TDMS_PropertyTypeMismatch 	The data type of the property does not match the expected data type.
+-6632 	TDMS_RequestExceedsActualNumberOfValues 	The request exceeds the actual number of available values.
+-6633 	TDMS_NumberOfValuesExceedsBufferSize 	The buffer is too small to hold all values.
+-6634 	TDMS_StringContainsInvalidCharacters 	String contains invalid characters.
+-6635 	TDMS_CannotModifyFileOpenedForReadOnlyAccess 	A file opened for read-only access cannot be modified.
+-6636 	TDMS_FileMustHaveTDMSExtension 	The file must have a .tdms extension.
+-6637 	TDMS_InvalidTimeValue 	The specified time value is invalid.
+-6638 	TDMS_InvalidByteOrderValue 	Invalid value for byte order.
+-6639 	TDMS_InvalidOptionsValue 	Invalid value for options.
+-6640 	TDMS_ChannelGroupNotFound 	The channel group could not be found.
+-6641 	TDMS_ChannelNotFound 	The channel could not be found.
+-6642 	TDMS_FeatureNotSupportedWithThisFileVersion 	A feature you have requested is not supported for this version of the TDMS file format.
+-6643 	TDMS_HandleInvalidDueToNamePropertyChange 	The handle is invalid because the channel group or channel it referred to was renamed.
+-6644 	TDMS_FileFormatNewerThanSupported 	The file format is too new to be supported by this version of the library.
+-6645 	TDMS_InvalidDataLayout 	Invalid value for data layout.
+-6646 	TDMS_AllChannelsMustHaveSameDatatype 	All channels passed to this function must have the same data type.
+-6647 	TDMS_InterleavedDataLayoutNotSupportedForStringDataType 	Interleaved data layout not supported for channels of string data type.
+-6648 	TDMS_InterleavedDataLayoutRequiresMultipleChannels 	Interleaved data layout requires multiple channels.
+-6649 	TDMS_NumValuesMustBeMultipleOfNumChannels 	The number of values must be an even multiple of the number of channels.
+-6650 	TDMS_InterleavedDataLayoutRequiresSaveFileParamToBeTrue 	Interleaved data layout requires the saveFile parameter to be true.
+-6651 	TDMS_RequestCannotBeCompletedWhileRenameIsPending 	The request cannot be completed while there is a pending change to the name property of a channel or channel group through another header file. Close one or more files and try again.
+-6652 	TDMS_DataTypeNotRecognized 	This channel or property value contains a data type that is not recognized by this version of the TDMS library.
+-6653 	TDMS_VersionOfTDMSDoesNotMeetMinimumVersionRequirement 	The version of TDMS found on this system does not meet the minimum version requirement of the LabWindows/CVI TDMS library.
+-6654 	TDMS_AdvancedIORequiresLaterFileFormat 	Advanced I/O requires a newer version of the TDMS file format than specified.
+-6655 	TDMS_InvalidReserveFileSizeMode 	Invalid value for reserve file mode.
+-6656 	TDMS_InvalidMaxNumConcurrentOperations 	Invalid value for maximum number of concurrent operations.
+-6657 	TDMS_AllChannelsMustBelongToSameFile 	All channels must belong to the same file.
+-6658 	TDMS_StringDataTypeNotSupported 	Channels with a data type of string are not supported.
+-6659 	TDMS_InvalidOffsetReferencePoint 	Invalid value for offset reference point.
+-6660 	TDMS_InvalidOffset 	Invalid value for offset.
+-6661 	TDMS_FunctionRequiresAdvancedFileHandle 	This function requires handles that were obtained from a file that was opened using an advanced create or open function.
+-6662 	TDMS_FunctionIncompatibleWithAdvancedFileHandle 	This function is incompatible with handles that were obtained from a file that was opened by calling an advanced create or open function.
+-6663 	TDMS_FunctionRequiresFileHandleWithAsyncOption 	This function requires handles that were obtained from a file that was opened by calling an advanced create or open function with the asynchronous option.
+-6664 	TDMS_FunctionIncompatibleWithFileHandleWithAsyncOption 	This function is incompatible with handles that were obtained from a file that was opened by calling an advanced create or open function with the asynchronous option.
+-6665 	TDMS_MemoryBufferExceeding4GBInSizeIsNotSupported 	Memory buffers greater than 4GB in size are not supported.
+-6666 	TDMS_SamplesPerChannelValuesMustNotBeZero 	Samples per channel value must not be zero.
+-6667 	TDMS_EndOfFile 	End of file reached.
+-6668 	TDMS_CannotCallLibraryFunctionsFromCallback 	TDMS library functions cannot be called from callback functions.
+-6669 	TDMS_FilePositionMustBeAlignedOnDiskSectorBoundary 	File position must be aligned on disk sector boundary when performing advanced I/O and buffering is disabled.
+-6670 	TDMS_InvalidNumberOfSamples 	Invalid value for number of samples.
+-6671 	TDMS_InvalidTimeout 	Invalid value for timeout.
+-6672 	TDMS_OperationTimedOut 	The operation exceeded the requested timeout.
+-6673 	TDMS_FailedToReserveFileSize 	Failed to reserve file size. Confirm that application has elevated privileges if required by the operating system.
+-6674 	TDMS_FileCannotBeTruncated 	File cannot be truncated. This can happen if there are currently multiple open references to the file.
+-6675 	TDMS_OperationCancelled 	The operation was cancelled because it could not be completed within the requested timeout period.
+-6676 	TDMS_AsyncOperationNotConfigured 	The asynchronous operation has not been configured. Call the appropriate asynchronous configuration function first.
+-6677 	TDMS_ChannelAlreadyPresentInChannelInfo 	One or more of the specified channels is already present in the channel information.
+-6678 	TDMS_DisableBufferingNotSupportedOnThisOS 	The option to disable buffering is not supported on this operating system.
+-6679 	TDMS_AsyncOperationsNotSupportedOnThisOS 	The option to enable asynchronous operations is not supported on this operating system.
+-6680 	TDMS_FunctionNotSupportedOnThisOS 	Function not supported on this operating system.
+-6681 	TDMS_DataDimensionMismatch 	The specified channel contains data with a number of dimensions that does not match the number of dimensions expected by this function.
+-6682 	TDMS_MultiDimensionalDataNotSupported 	This function does not support files containing channels with multidimensional data in this version of the TDMS library.
+-6683 	TDMS_AdditionalHierarchyNotSupported 	This function does not support files containing additional levels of hierarchy in this version of the TDMS library.
+-6684 	TDMS_InvalidHandle 	Invalid file, channel group, or channel handle.
+-6685 	TDMS_CouldNotCreateOrApplyScalingInfo 	The scaling information could not be created or the scaling information could not be applied to the data values.
+-6686 	TDMS_PropertyNotSupportedOnObjectOfSpecifiedType 	The property is not supported on an object of the specified type. For example, you are trying to set a property on a channel group when that property is only supported on a channel.
+-6687 	TDMS_FileAlreadyExists 	The file already exists.
+-6688 	TDMS_OperationIsOnlyValidOnInMemoryFiles 	Operation is only valid on in-memory files.
+-6689 	TDMS_FailedToChangeBlockSize 	Failed to change the block size. This can happen if you write to a file before setting this property.
+-6690 	TDMS_InvalidBlockSize 	Invalid block size.

@@ -1,2 +1,4 @@
+ctdms_errors.h
+ctdms_errors.c
 *.o
 t1

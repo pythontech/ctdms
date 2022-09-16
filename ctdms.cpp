@@ -18,6 +18,8 @@ struct TDMSChunk {
     size_t numBytes;
 
     TDMSChunk(_TDMSChannel *_channel, size_t _numValues, char *_data, size_t numBytes);
+    ~TDMSChunk();
+
     size_t indexSize();
     void writeIndex(_TDMSFile &);
 };
@@ -133,6 +135,8 @@ void _TDMSFile::save() {
     for (auto& chunk : pending) {
         bytes(&chunk.dataCopy[0], chunk.numBytes);
     }
+    // Remove pending
+    pending.clear();
 }
 
 void _TDMSFile::close() {
@@ -147,6 +151,10 @@ void _TDMSChannelGroup::addChannel(_TDMSChannel *channel) {
 TDMSChunk::TDMSChunk(_TDMSChannel *_channel, size_t _numValues, char *_data, size_t _numBytes)
     : channel(_channel), numValues(_numValues), dataCopy(_data), numBytes(_numBytes)
 {
+}
+
+TDMSChunk::~TDMSChunk() {
+    delete[] dataCopy;
 }
 
 size_t

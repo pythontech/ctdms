@@ -92,7 +92,7 @@ struct _TDMSChannel {
         : dataType(_dataType), name(_name), description(_description), unitString(_unitString) {
     }
     std::string fullPath() {
-        return "'" + group->name + "'/'" + name + "'";
+        return "/'" + group->name + "'/'" + name + "'";
     }
 };
 

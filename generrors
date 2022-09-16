@@ -33,6 +33,7 @@ sub write_c {
     my($cname,@defs) = @_;
     open(my $c,'>',$cname)
 	or die "Cannot open $cname: $!\n";
+    print $c "#include \"ctdms.h\"\n";
     print $c "#include \"ctdms_errors.h\"\n";
     print $c "const char *TDMS_GetLibraryErrorDescription(int error) {\n";
     print $c "    switch (error) {\n";

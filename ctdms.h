@@ -12,26 +12,26 @@ extern "C" {
 
 #include <stdlib.h>
 
-enum TDMSFileFormat {
+typedef enum {
     TDMS_Streaming1_0
-};
+} TDMSFileFormat;
 
-enum TDMSByteOrder {
+typedef enum {
     TDMS_ByteOrderLittleEndian,
     TDMS_ByteOrderBigEndian
-};
+} TDMSByteOrder;
 
-enum TDMSDataType {
+typedef enum {
     TDMS_Int32 = 4,
     TDMS_Uint64 = 8,
     TDMS_SingleFloat = 9,
     TDMS_DoubleFloat = 10
-};
+} TDMSDataType;
 
-enum TDMSDataLayout {
+typedef enum {
     TDMS_DataLayoutNonInterleaved,
     TDMS_DataLayoutInterleaved
-};
+} TDMSDataLayout;
 
 struct _TDMSFile;
 struct _TDMSChannelGroup;
@@ -92,6 +92,9 @@ TDMS_AppendDataValuesMultiChannel(TDMSChannelHandle channels[],
                                   size_t numberOfValues,
                                   TDMSDataLayout dataLayout,
                                   int saveFile);
+
+const char *
+TDMS_GetLibraryErrorDescription(int err);
 
 #ifdef __cplusplus
 }

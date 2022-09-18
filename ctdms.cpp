@@ -23,9 +23,14 @@ struct TDMSChunk {
     TDMSChunk(_TDMSChannel *_channel, size_t _numValues, char *_data, size_t numBytes);
     ~TDMSChunk();
 
-    size_t indexSize();
-    void writeIndex(_TDMSFile &);
+    size_t indexSize() const;
+    void writeIndex(_TDMSFile &) const;
 };
+
+/**
+ * Data for multiple channels
+ */
+typedef std::vector<TDMSChunk> TDMSChunkSet;
 
 struct _TDMSFile {
     std::string path;
@@ -34,7 +39,7 @@ struct _TDMSFile {
     std::string title;
     std::string author;
     std::vector<TDMSChannelGroupHandle> groups;
-    std::vector<TDMSChunk> pending;
+    std::vector<TDMSChunkSet> pending;
     std::ofstream f;
 
     _TDMSFile(const char *filePath,
@@ -50,6 +55,7 @@ struct _TDMSFile {
     }
     void addGroup(_TDMSChannelGroup *group);
     void save();
+    void saveSegment(const TDMSChunkSet&);
     void close();
     _TDMSFile& bytes(const char *, size_t);
     _TDMSFile& i4(const int32_t val) {
@@ -116,6 +122,14 @@ _TDMSFile::bytes(const char *data, size_t size) {
 }
 
 void _TDMSFile::save() {
+    for (auto& chunkSet : pending) {
+        saveSegment(chunkSet);
+    }
+    // Remove pending
+    pending.clear();
+}
+
+void _TDMSFile::saveSegment(const TDMSChunkSet& chunkSet) {
     if (! f.is_open()) {
         f.open(path);
     }
@@ -124,22 +138,20 @@ void _TDMSFile::save() {
     u4(4712);                           // version
     size_t indexTotal = 0;
     size_t dataTotal = 0;
-    for (auto& chunk : pending) {
+    for (const auto& chunk : chunkSet) {
         indexTotal += chunk.indexSize();
         dataTotal += chunk.numBytes;
     }
     u8(indexTotal + dataTotal);         // next_segment_offset
     u8(indexTotal);                     // raw_data_offset
     // Index
-    u4(pending.size());
-    for (auto& chunk : pending) {
+    u4(chunkSet.size());
+    for (auto& chunk : chunkSet) {
         chunk.writeIndex(*this);
     }
-    for (auto& chunk : pending) {
+    for (auto& chunk : chunkSet) {
         bytes(&chunk.dataCopy[0], chunk.numBytes);
     }
-    // Remove pending
-    pending.clear();
 }
 
 void _TDMSFile::close() {
@@ -163,7 +175,7 @@ TDMSChunk::~TDMSChunk() {
 }
 
 size_t
-TDMSChunk::indexSize() {
+TDMSChunk::indexSize() const {
     return lstrSize(channel->fullPath())
         + 4                         // 20
         + 4                         // dtype
@@ -173,7 +185,7 @@ TDMSChunk::indexSize() {
 }
 
 void
-TDMSChunk::writeIndex(_TDMSFile& file) {
+TDMSChunk::writeIndex(_TDMSFile& file) const {
     file
         .lstr(channel->fullPath())
         .u4(20)
@@ -288,8 +300,8 @@ TDMS_AppendDataValues(TDMSChannelHandle channel,
     }
     char *dataCopy = new char[numBytes];
     memcpy(dataCopy, values, numBytes);
-    channel->group->file->pending.emplace_back(channel, numberOfValues,
-                                               dataCopy, numBytes);
+    TDMSChunkSet chunkSet {{channel, numberOfValues, dataCopy, numBytes}};
+    channel->group->file->pending.push_back(chunkSet);
     return OK;
 }
 

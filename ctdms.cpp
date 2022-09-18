@@ -11,6 +11,9 @@ lstrSize(const std::string &str) {
     return 4 + str.size();
 }
 
+/**
+ * A chunk of signal data waiting to be written
+ */
 struct TDMSChunk {
     _TDMSChannel *channel;
     size_t numValues;
@@ -154,7 +157,9 @@ TDMSChunk::TDMSChunk(_TDMSChannel *_channel, size_t _numValues, char *_data, siz
 }
 
 TDMSChunk::~TDMSChunk() {
-    delete[] dataCopy;
+    if (dataCopy) {
+        delete [] dataCopy;
+    }
 }
 
 size_t

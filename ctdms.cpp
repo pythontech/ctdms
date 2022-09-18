@@ -285,24 +285,16 @@ TDMS_OpenFile(const char *filePath,
               int readOnly,
               TDMSFileHandle *file);
 // TDMS_OpenFileEx(...)
+
 int // status: 0=OK, negative=error
 TDMS_AppendDataValues(TDMSChannelHandle channel,
                       void *values,
                       size_t numberOfValues,
                       int saveFile) {
-    size_t numBytes = 0;
-    switch (channel->dataType) {
-    case TDMS_SingleFloat:
-        numBytes = numberOfValues * sizeof(float);
-        break;
-    default:
-        throw "Unhandled type";
-    }
-    char *dataCopy = new char[numBytes];
-    memcpy(dataCopy, values, numBytes);
-    TDMSChunkSet chunkSet {{channel, numberOfValues, dataCopy, numBytes}};
-    channel->group->file->pending.push_back(chunkSet);
-    return OK;
+    return TDMS_AppendDataValuesMultiChannel(&channel, 1,
+                                             values, numberOfValues,
+                                             TDMS_DataLayoutNonInterleaved,
+                                             saveFile);
 }
 
 int // status: 0=OK, negative=error
@@ -311,5 +303,37 @@ TDMS_AppendDataValuesMultiChannel(TDMSChannelHandle channels[],
                                   void *values,
                                   size_t numberOfValues,
                                   TDMSDataLayout dataLayout,
-                                  int saveFile);
+                                  int saveFile) {
+    int err = OK;
+    if (numberOfChannels == 0) {
+        // Nothing to do; cannot save (no handle)
+        return OK;
+    }
 
+    TDMSChunkSet chunkSet;
+    chunkSet.reserve(numberOfChannels);
+
+    const char *dataPtr = static_cast<const char *>(values);
+    for (unsigned c = 0; c < numberOfChannels; c++) {
+        const TDMSChannelHandle& channel = channels[c];
+        size_t numBytes = 0;
+        switch (channel->dataType) {
+        case TDMS_SingleFloat:
+            numBytes = numberOfValues * sizeof(float);
+            break;
+        default:
+            throw "Unhandled type";
+        }
+        char *dataCopy = new char[numBytes];
+        memcpy(dataCopy, dataPtr, numBytes);
+        dataPtr += numBytes;
+        chunkSet.emplace_back(channel, numberOfValues,
+                              dataCopy, numBytes);
+    }
+    channels[0]->group->file->pending.push_back(std::move(chunkSet));
+
+    if (saveFile) {
+        err = TDMS_SaveFile(channels[0]->group->file);
+    }
+    return err;
+}

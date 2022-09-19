@@ -321,6 +321,9 @@ TDMS_AppendDataValuesMultiChannel(TDMSChannelHandle channels[],
         case TDMS_SingleFloat:
             numBytes = numberOfValues * sizeof(float);
             break;
+        case TDMS_DoubleFloat:
+            numBytes = numberOfValues * sizeof(double);
+            break;
         default:
             throw "Unhandled type";
         }

@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 #include <stdlib.h>
+#include "ctdms_errors.h"
 
 typedef enum {
     TDMS_Streaming1_0

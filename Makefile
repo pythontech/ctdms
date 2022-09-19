@@ -11,5 +11,5 @@ ctdms_errors.h ctdms_errors.c:	errors.def generrors
 
 ctdms.o ctdms_errors.o:	ctdms.h
 
-t1:	t1.o ctdms.o
+t1:	t1.o ctdms.o ctdms_errors.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^

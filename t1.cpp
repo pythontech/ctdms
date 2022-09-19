@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include "ctdms.h"
 
-#define chk(f,args) do {                                \
-        if ((err = f args) != 0) {                      \
-            fprintf(stderr, "%s: error %d\n", #f, err); \
-            return 1;                                   \
-        }                                               \
+#define chk(f,args) do {                                    \
+        if ((err = f args) != 0) {                          \
+            fprintf(stderr, "%s: error %d: %s\n",           \
+                    #f, err,                                \
+                    TDMS_GetLibraryErrorDescription(err));  \
+            return 1;                                       \
+        }                                                   \
     } while (0)
 
 int main() {

@@ -3,12 +3,29 @@
 #include <vector>
 #include <cstring>
 #include <fstream>
+#include <cerrno>
 
 #define OK 0
 
 static inline size_t
 lstrSize(const std::string &str) {
     return 4 + str.size();
+}
+
+static TDMSError
+_TDMS_syserror() {
+    int err = errno;
+    switch (err) {
+    case ENOENT:        
+        return TDMS_PathNotFound;
+    case EACCES:
+        return TDMS_FileAccessDenied;
+    case EEXIST:
+        return TDMS_FileAlreadyExists;
+    case EISDIR:
+    default:
+        return TDMS_FileCouldNotBeOpened;
+    }
 }
 
 /**
@@ -132,6 +149,9 @@ void _TDMSFile::save() {
 void _TDMSFile::saveSegment(const TDMSChunkSet& chunkSet) {
     if (! f.is_open()) {
         f.open(path);
+        if (! f.is_open()) {
+            throw _TDMS_syserror();
+        }
     }
     bytes("TDSm", 4);
     u4(6);                              // toc_flags
@@ -156,6 +176,9 @@ void _TDMSFile::saveSegment(const TDMSChunkSet& chunkSet) {
 
 void _TDMSFile::close() {
     f.close();
+    if (f.fail()) {
+        throw _TDMS_syserror();
+    }
 }
 
 void _TDMSChannelGroup::addChannel(_TDMSChannel *channel) {
@@ -268,7 +291,7 @@ TDMS_SaveFile(TDMSFileHandle file) {
     try {
         file->save();
     }
-    catch (int e) {
+    catch (TDMSError e) {
         return e;
     }
     return OK;
@@ -276,7 +299,12 @@ TDMS_SaveFile(TDMSFileHandle file) {
 
 int // status: 0=OK, negative=error
 TDMS_CloseFile(TDMSFileHandle file) {
-    file->close();
+    try {
+        file->close();
+    }
+    catch (TDMSError e) {
+        return e;
+    }
     return OK;
 }
 
@@ -325,7 +353,7 @@ TDMS_AppendDataValuesMultiChannel(TDMSChannelHandle channels[],
             numBytes = numberOfValues * sizeof(double);
             break;
         default:
-            throw "Unhandled type";
+            throw int(TDMS_InvalidDataType);
         }
         char *dataCopy = new char[numBytes];
         memcpy(dataCopy, dataPtr, numBytes);

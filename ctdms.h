@@ -1,6 +1,7 @@
 /*=======================================================================
  *      TDMS
  *	https://www.ni.com/docs/en-US/bundle/labwindows-cvi/page/cvi/libref/cvitdmslibraryfunctiontree.htm
+ *	https://www.ni.com/en-gb/support/documentation/supplemental/07/tdms-file-format-internal-structure.html
  *	https://www.ni.com/content/dam/web/product-documentation/c_dll_tdm.zip
  *=======================================================================*/
 #ifndef TDMS_H
